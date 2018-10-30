@@ -8,9 +8,22 @@ import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 })
 export class AppComponent implements OnInit {
 
+  devices: MediaDeviceInfo[];
+  hasDevices: boolean;
+
   @ViewChild('scanner') scanner: ZXingScannerComponent;
+  @ViewChild('video') videoPlayer: HTMLVideoElement;
 
   ngOnInit(): void {
-    this.scanner.camerasFound.subscribe(res => console.log(res));
+    const browser = <any>navigator;
+    browser.mediaDevices.getUserMedia = (browser.getUserMedia ||
+      browser.webkitGetUserMedia ||
+      browser.mozGetUserMedia ||
+      browser.msGetUserMedia);
+
+      navigator.mediaDevices.getUserMedia({video: true, audio: false}).then(stream => {
+        this.videoPlayer.srcObject = stream;
+
+      });
   }
 }
