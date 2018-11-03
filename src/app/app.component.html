@@ -1,8 +1,9 @@
-<!-- <h1>Shrey Baxi QR scanner</h1>
-<div [hidden]="!hasDevices">
-  <zxing-scanner *ngIf="devices" #scanner [device]="devices[0]"></zxing-scanner>
+<div class="scanner-shell" [hidden]="!hasDevices">
+  <zxing-scanner #scanner
+    [device]="currentDevice"
+    (scanSuccess)="handleQrCodeResult($event)"
+    [formats]="['EAN_13', 'CODE_128', 'QR_CODE']"></zxing-scanner>
 </div>
 
- -->
-
- <video #video width="200px" height="200px" controls autoplay="true"></video>
+<div>Has Permission: {{hasPermission}}</div>
+<div *ngIf="qrResultString">{{qrResultString}}</div>
